@@ -1,0 +1,66 @@
+#dual pivot quick sort
+import random
+def quick(nums,low,high):
+    while True:
+        if  len(nums[low+1:high])==0:
+            return(nums)
+        
+        elif low == high:
+            return(nums)
+        elif nums[low] == nums[high]:
+            high = high -1
+            continue
+        elif nums[low]>nums[high]:
+            nums[low],nums[high] = nums[high],nums[low]
+            continue
+        else:
+            l=0
+            r=0
+            m=0
+            i=low+1
+            while i in range(low+1,high):
+                if nums[i]<nums[low] and i>low:
+                    nums.insert(low,nums[i])
+                    low+=1
+                    del nums[i+1]
+                    l+=1
+
+                    continue
+                elif nums[i]>nums[high] and i<high:
+                    nums.insert(high+1,nums[i])
+                    high-=1
+                    del nums[i]
+                    r+=1
+
+                    continue
+                elif nums[i]==nums[low] and  i>low:
+                    nums.insert(low,nums[i])
+                    low +=1
+                    del nums[i+1]
+                    i+=1
+                    continue
+                elif nums[i]==nums[high] and i< high:
+                    nums.insert(high+1,nums[i])
+                    high-=1
+                    del nums[i]                   
+                    continue
+                elif nums[low]<nums[i]<nums[high] and not(low<i<high):
+                    nums.insert(low+1,nums[i])
+                    del nums[i+1]
+                    m+=1
+                    i+=1
+                    continue
+                elif not(nums[i-1]<=nums[i]):
+                    m+=1
+                    i+=1
+                    continue
+                i+=1
+                      
+            if l != 0:
+                nums = quick(nums,0,low-1)
+            elif m!=0:
+                nums = quick(nums,low+1,high-1)
+            elif r!=0:
+                nums = quick(nums,high+1,len(nums)-1)
+            else:
+                return(nums)
